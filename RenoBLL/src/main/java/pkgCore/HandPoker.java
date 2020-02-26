@@ -243,6 +243,16 @@ public class HandPoker extends Hand implements Comparable {
 
 		boolean bIsRoyalFlush = false;
 		// TODO - Complete implementation for this method.
+		if (isStraightFlush() && (this.getCards().get(1).geteRank().equals(eRank.KING))
+				&& (this.getCards().get(0).geteRank().equals(eRank.ACE))) {
+			HandScorePoker HSP = (HandScorePoker) this.getHS();
+			HSP.seteHandStrength(eHandStrength.RoyalFlush);
+			HSP.setHiCard(this.getCards().get(this.getCRC().get(eRow.ONE.ordinal()).getiCardPosition()));
+			HSP.setLoCard(null);
+			HSP.setKickers(null);
+			this.setHS(HSP);
+			bIsRoyalFlush = true;
+		}
 		return bIsRoyalFlush;
 	}
 
@@ -259,7 +269,13 @@ public class HandPoker extends Hand implements Comparable {
 		if (isStraight() && isFlush()) {
 			HandScorePoker HSP = (HandScorePoker) this.getHS();
 			HSP.seteHandStrength(eHandStrength.StraightFlush);
-			HSP.setHiCard(null);
+			if ((this.getCards().get(0).geteRank().equals(eRank.ACE))
+					&& (this.getCards().get(1).geteRank().equals(eRank.FIVE))) {
+				HSP.setHiCard(this.getCards().get(this.getCRC().get(eRow.TWO.ordinal()).getiCardPosition()));;
+			}
+			else {
+				HSP.setHiCard(this.getCards().get(this.getCRC().get(eRow.ONE.ordinal()).getiCardPosition()));
+			}
 			HSP.setLoCard(null);
 			HSP.setKickers(null);
 			this.setHS(HSP);
