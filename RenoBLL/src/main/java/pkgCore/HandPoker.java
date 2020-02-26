@@ -256,8 +256,18 @@ public class HandPoker extends Hand implements Comparable {
 	private boolean isStraightFlush() {
 		boolean bisStraightFlush = false;
 		// TODO - Complete implementation for this method.
+		if (isStraight() && isFlush()) {
+			HandScorePoker HSP = (HandScorePoker) this.getHS();
+			HSP.seteHandStrength(eHandStrength.StraightFlush);
+			HSP.setHiCard(null);
+			HSP.setLoCard(null);
+			HSP.setKickers(null);
+			this.setHS(HSP);
+			bisStraightFlush = true;
+		}
 		return bisStraightFlush;
 	}
+	
 
 	/**
 	 * @author BRG
@@ -309,7 +319,6 @@ public class HandPoker extends Hand implements Comparable {
 	 */
 	private boolean isFlush() {
 		boolean bisFlush = false;
-		// TODO - Complete implementation for this method.
 		if (this.getCards().get(0).geteSuit()==this.getCards().get(1).geteSuit()&&
 				this.getCards().get(0).geteSuit()==this.getCards().get(2).geteSuit()&&
 				this.getCards().get(0).geteSuit()==this.getCards().get(3).geteSuit()&&
@@ -339,33 +348,37 @@ public class HandPoker extends Hand implements Comparable {
 	 * 
 	 */
 	private boolean isStraight() {
-		boolean bisStraight = false;
-		// TODO - Complete implementation for this method.
-	int lastRank = this.getCards().get(this.getCRC().get(eRow.FIVE.ordinal()).getiCardPosition()).geteRank().ordinal();
-	int firstRank = this.getCards().get(this.getCRC().get(eRow.ONE.ordinal()).getiCardPosition()).geteRank().ordinal();
-	if ((GetCRCSize()==eRowCount.FIVE.getiRowCountItems())&&((firstRank-lastRank)==4)) {
+		boolean bisStraight = true;
+		int i=0;
+		if ((this.getCards().get(0).geteRank().equals(eRank.ACE))
+				&& (this.getCards().get(1).geteRank().equals(eRank.FIVE))) {
+			i=1;
+		}
+		for(;i<this.getCards().size()-1;i++)
+		{
+			if ((this.getCards().get(i).geteRank().getiRankNbr() -1)!=(this.getCards().get(i+1).geteRank().getiRankNbr()))
+			{
+				bisStraight = false;
+				return bisStraight;
+			}
+			
+		}
 		HandScorePoker HSP = (HandScorePoker) this.getHS();
 		HSP.seteHandStrength(eHandStrength.Straight);
-		HSP.setHiCard(this.getCards().get(this.getCRC().get(eRow.ONE.ordinal()).getiCardPosition()));
+		if ((this.getCards().get(0).geteRank().equals(eRank.ACE))
+				&& (this.getCards().get(1).geteRank().equals(eRank.FIVE))) {
+			HSP.setHiCard(this.getCards().get(this.getCRC().get(eRow.TWO.ordinal()).getiCardPosition()));;
+		}
+		else {
+			HSP.setHiCard(this.getCards().get(this.getCRC().get(eRow.ONE.ordinal()).getiCardPosition()));
+		}
 		HSP.setLoCard(null);
-		HSP.setKickers(null);
 		this.setHS(HSP);
-		bisStraight = true;
+		HSP.setKickers(null);
+		return bisStraight;
 	}
-	else if ((GetCRCSize() ==eRowCount.FIVE.getiRowCountItems()) && 
-			(this.getCards().get(this.getCRC().get(eRow.ONE.ordinal()).getiCardPosition()).geteRank() == eRank.ACE) &&
-			(this.getCards().get(this.getCRC().get(eRow.TWO.ordinal()).getiCardPosition()).geteRank() == eRank.FIVE) &&
-			(this.getCards().get(this.getCRC().get(eRow.FIVE.ordinal()).getiCardPosition()).geteRank() == eRank.TWO)) {
-				HandScorePoker HSP = (HandScorePoker) this.getHS();
-				HSP.seteHandStrength(eHandStrength.Straight);
-				HSP.setHiCard(this.getCards().get(this.getCRC().get(eRow.TWO.ordinal()).getiCardPosition()));
-				HSP.setLoCard(null);
-				HSP.setKickers(null);
-				this.setHS(HSP);
-				bisStraight = true;
-			}
-	return bisStraight;
-	}
+
+
 	/**
 	 * @author BRG
 	 * @version Lab #2
