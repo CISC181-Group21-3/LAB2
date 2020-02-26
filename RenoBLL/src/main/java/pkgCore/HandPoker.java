@@ -242,7 +242,6 @@ public class HandPoker extends Hand implements Comparable {
 	private boolean isRoyalFlush() {
 
 		boolean bIsRoyalFlush = false;
-		// TODO - Complete implementation for this method.
 		if (isStraightFlush() && (this.getCards().get(1).geteRank().equals(eRank.KING))
 				&& (this.getCards().get(0).geteRank().equals(eRank.ACE))) {
 			HandScorePoker HSP = (HandScorePoker) this.getHS();
@@ -265,7 +264,6 @@ public class HandPoker extends Hand implements Comparable {
 	 */
 	private boolean isStraightFlush() {
 		boolean bisStraightFlush = false;
-		// TODO - Complete implementation for this method.
 		if (isStraight() && isFlush()) {
 			HandScorePoker HSP = (HandScorePoker) this.getHS();
 			HSP.seteHandStrength(eHandStrength.StraightFlush);
